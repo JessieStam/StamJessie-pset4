@@ -3,4 +3,5 @@
     <string name="todoTitletext">To-Do</string>
     <string name="addText">ADD</string>
     <string name="add_new_list">Add new list</string>
+    <string name="add_list_item">Add an item to this list</string>
 </resources>

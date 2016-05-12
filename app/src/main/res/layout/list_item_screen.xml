@@ -25,15 +25,15 @@
             android:layout_width="match_parent"
             android:layout_height="77dp"
             android:layout_gravity="center_horizontal"
-            android:background="#00FF7F">
+            android:background="#7ffaf6">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/todoTitletext"
+                android:text="pas deze titel aan"
                 android:textSize="40sp"
                 android:padding="10dp"
-                android:id="@+id/todoTitletext"
+                android:id="@+id/todoListTitle"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 android:layout_gravity="center_horizontal|top" />
@@ -56,9 +56,9 @@
                 android:layout_width="249dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/user_input"
-                android:background="#FFF68F"
+                android:background="#c08fff"
                 android:padding="10dp"
-                android:hint="@string/add_new_list"/>
+                android:hint="@string/add_list_item"/>
 
             <FrameLayout
                 android:layout_width="20dp"
@@ -70,7 +70,7 @@
                 android:text="@string/addText"
                 android:id="@+id/addText"
                 android:textColor="#FFFFFF"
-                android:background="#FFB6C1"
+                android:background="#5bf960"
                 android:padding="10dp"
                 android:onClick="addToList"/>
         </LinearLayout>
