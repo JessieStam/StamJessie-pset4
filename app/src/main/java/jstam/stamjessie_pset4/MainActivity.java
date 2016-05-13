@@ -39,12 +39,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                //hier moet je nog een getChildAtPosition doen om te bepalen welke lijst je wilt -> uit SQLite halen
+                screen_list.getChildAt(position);
+
                 // ga naar een nieuwe activity
                 Intent listItems = new Intent(this, SecondActivity.class);
                 startActivity(listItems);
 
-                // Jessie, kijk er nog even naar of je dit moet afsluiten of niet
-                finish();
+                // Jessie, kijk er nog even naar of je dit moet afsluiten of niet (volgens Hella waarschijnlijk niet)
+                // finish();
             }
         });
 
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 todoAdapter.notifyDataSetChanged();
 
                 //remove title from the SQLite
-                TodoManager.delete(TodoItem.id);
+                TodoManager.delete(TodoItem.todo_title);
 
                 return true;
             }
@@ -77,10 +80,10 @@ public class MainActivity extends AppCompatActivity {
 
         todo_title = user_input.getText().toString();
 
-        TodoItem new_title = new TodoItem(todo_title);
+        TodoItem new_title = new TodoList(todo_title);
 
         // add user input to ListView
-        todo_list_list.add(new_title);
+        todo_list_list.add(todo_title);
 
         // refresh ListView
         todoAdapter.notifyDataSetChanged();

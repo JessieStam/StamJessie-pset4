@@ -30,6 +30,8 @@ public class SecondActivity extends MainActivity {
                 if (currentColor.equals(unfinished)) {
                     screen_list.getChildAt(position).setBackgroundColor(Color.GRAY);
                     currentColor = finished;
+
+                    TodoManager.update(screen_list);
                 }
                 // if item is not selected, change color back to white
                 else if (currentColor.equals(finished)) {
@@ -51,7 +53,7 @@ public class SecondActivity extends MainActivity {
                 todoAdapter.notifyDataSetChanged();
 
                 //remove title from the SQLite
-                TodoManager.delete(TodoItem.id);
+                TodoManager.delete(todo_list_list);
 
                 return true;
             }
@@ -63,7 +65,7 @@ public class SecondActivity extends MainActivity {
     /*
     * Adds an item to the list
     */
-    public void addToList(View view) {
+    public void addToListItem(View view) {
 
         // use adapter to put todo_list information to screen_list
         screen_list.setAdapter(todoAdapter);
@@ -73,7 +75,7 @@ public class SecondActivity extends MainActivity {
         TodoItem new_item = new TodoItem(todo_item);
 
         // add user input to ListView
-        todo_list_list.add(new_item);
+        todo_list_list.add(todo_item);
 
         // refresh ListView
         todoAdapter.notifyDataSetChanged();

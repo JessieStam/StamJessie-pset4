@@ -39,10 +39,18 @@
                 android:layout_gravity="center_horizontal|top" />
         </FrameLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/longclick_item"
+            android:id="@+id/longclick_item"
+            android:layout_gravity="center_horizontal" />
+
         <ListView
             android:layout_width="match_parent"
             android:layout_height="264dp"
-            android:id="@+id/titleList"
+            android:id="@+id/itemList"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.63"/>
 
@@ -55,7 +63,7 @@
             <EditText
                 android:layout_width="249dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/user_input"
+                android:id="@+id/user_input_item"
                 android:background="#c08fff"
                 android:padding="10dp"
                 android:hint="@string/add_list_item"/>
@@ -68,11 +76,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/addText"
-                android:id="@+id/addText"
+                android:id="@+id/addItemText"
                 android:textColor="#FFFFFF"
                 android:background="#5bf960"
                 android:padding="10dp"
-                android:onClick="addToList"/>
+                android:onClick="addToListItem"/>
         </LinearLayout>
 
     </LinearLayout>
