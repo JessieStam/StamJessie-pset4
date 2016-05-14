@@ -19,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<String> todoAdapter;
     EditText user_input;
     String todo_title;
-    TodoManager TodoManager = new TodoManager(this);
+
+    // TodoManager todo_manager = TodoManager.getOurInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         user_input = (EditText) findViewById(R.id.user_input);
         screen_list = new ListView(this);
         screen_list = (ListView) findViewById(R.id.titleList);
+        todo_list_list = new ArrayList<>();
         todoAdapter = new ArrayAdapter<>
                 (this, android.R.layout.simple_list_item_1, todo_list_list);
 
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 screen_list.getChildAt(position);
 
                 // ga naar een nieuwe activity
-                Intent listItems = new Intent(this, SecondActivity.class);
+                Intent listItems = new Intent(view.getContext(), SecondActivity.class);
                 startActivity(listItems);
 
                 // Jessie, kijk er nog even naar of je dit moet afsluiten of niet (volgens Hella waarschijnlijk niet)
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 todoAdapter.notifyDataSetChanged();
 
                 //remove title from the SQLite
-                TodoManager.delete(TodoItem.todo_title);
+                // todo_manager.delete(TodoList.getTitle(todo_title));
 
                 return true;
             }
@@ -71,25 +73,52 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
+     * Save data for when screen is rotated or application is shut down
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // save to-do items
+        todo_title = user_input.getText().toString();
+
+        outState.putString("todo_title", todo_title);
+        //outState.putStringArrayList("todo_list", todo_list_save);
+    }
+
+    /*
+     * Restore data after screen is rotated or application is restarted
+     */
+    @Override
+    public void onRestoreInstanceState(Bundle saveInstanceState) {
+        super.onRestoreInstanceState(saveInstanceState);
+
+        // restore to-do items
+        user_input.setText(saveInstanceState.getString("todo_title"));
+        //todo_list = saveInstanceState.getStringArrayList("todo_list");
+    }
+
+
+    /*
     * Adds an item to the list
     */
     public void addToList(View view) {
 
-        // use adapter to put todo_list information to screen_list
-        screen_list.setAdapter(todoAdapter);
-
         todo_title = user_input.getText().toString();
 
-        TodoItem new_title = new TodoList(todo_title);
+        // TodoList new_title = new TodoList(todo_title);
 
         // add user input to ListView
         todo_list_list.add(todo_title);
+
+        // use adapter to put todo_list information to screen_list
+        screen_list.setAdapter(todoAdapter);
 
         // refresh ListView
         todoAdapter.notifyDataSetChanged();
 
         // add title to SQLite
-        TodoManager.create(todo_title);
+        // todo_manager.create(todo_title);
 
         // clear the input line after text is added
         user_input.getText().clear();

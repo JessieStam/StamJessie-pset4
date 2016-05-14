@@ -10,6 +10,7 @@ public class TodoItem {
 
     //field
     private String todo_item;
+
     private String currentColor;
     private String finished = "finished";
     private String unfinished = "unfinished";
@@ -20,9 +21,9 @@ public class TodoItem {
     //methods
     private String getTitle() {return todo_item;}
 
-    private void setTitle(String new_title) {todo_item = new_title;}
+    public void setTitle(String new_title) {todo_item = new_title;}
 
-    private void setColor(String currentColor) {
+    public void setColor(String currentColor) {
 
         if (currentColor.equals(unfinished)){
             currentColor = finished;
@@ -32,5 +33,5 @@ public class TodoItem {
         }
     }
 
-    private String getColor(String currentColor) {return currentColor;}
+    public String getColor(String currentColor) {return currentColor;}
 }

@@ -23,7 +23,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="77dp"
+            android:layout_height="52dp"
             android:layout_gravity="center_horizontal"
             android:background="#7ffaf6">
 
@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="pas deze titel aan"
-                android:textSize="40sp"
+                android:textSize="30sp"
                 android:padding="10dp"
                 android:id="@+id/todoListTitle"
                 android:textColor="#FFFFFF"
@@ -49,7 +49,7 @@
 
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="264dp"
+            android:layout_height="156dp"
             android:id="@+id/itemList"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.63"/>
@@ -61,7 +61,7 @@
             android:padding="5dp">
 
             <EditText
-                android:layout_width="249dp"
+                android:layout_width="445dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/user_input_item"
                 android:background="#c08fff"

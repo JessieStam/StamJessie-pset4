@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="jstam.stamjessie_pset4.SecondActivity">
+    tools:context="jstam.stamjessie_pset4.MainActivity">
 
     <LinearLayout
         android:orientation="vertical"
@@ -23,17 +23,17 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="77dp"
+            android:layout_height="52dp"
             android:layout_gravity="center_horizontal"
-            android:background="#7ffaf6">
+            android:background="#00FF7F">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="pas deze titel aan"
-                android:textSize="40sp"
+                android:text="@string/todoTitletext"
+                android:textSize="30sp"
                 android:padding="10dp"
-                android:id="@+id/todoListTitle"
+                android:id="@+id/todoTitletext"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 android:layout_gravity="center_horizontal|top" />
@@ -43,44 +43,45 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/longclick_item"
-            android:id="@+id/longclick_item"
+            android:text="@string/longclick_list"
+            android:id="@+id/longclick_list"
             android:layout_gravity="center_horizontal" />
 
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="264dp"
-            android:id="@+id/itemList"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.63"/>
+            android:layout_height="156dp"
+            android:id="@+id/titleList"
+            android:layout_gravity="center_horizontal" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:weightSum="1">
 
             <EditText
                 android:layout_width="249dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/user_input_item"
-                android:background="#c08fff"
+                android:id="@+id/user_input"
+                android:background="#FFF68F"
                 android:padding="10dp"
-                android:hint="@string/add_list_item"/>
+                android:hint="@string/add_new_list"
+                android:layout_weight="0.98" />
 
             <FrameLayout
                 android:layout_width="20dp"
                 android:layout_height="match_parent"/>
 
             <Button
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/addText"
-                android:id="@+id/addItemText"
+                android:id="@+id/addText"
                 android:textColor="#FFFFFF"
-                android:background="#5bf960"
+                android:background="#FFB6C1"
                 android:padding="10dp"
-                android:onClick="addToListItem"/>
+                android:onClick="addToList"/>
         </LinearLayout>
 
     </LinearLayout>

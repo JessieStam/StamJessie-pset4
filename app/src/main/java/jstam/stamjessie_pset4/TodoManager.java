@@ -27,7 +27,7 @@ public class TodoManager extends SQLiteOpenHelper {
     private static TodoManager ourInstance = null;
 
     // methods
-    public TodoManager getOurInstance() {
+    public static TodoManager getOurInstance() {
         return ourInstance;
     }
 
@@ -124,11 +124,11 @@ public class TodoManager extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         // add to-do item to list and add to the table
-        values.put("todo", TodoItem.setTitle());
+        //values.put("todo", TodoItem.getTitle());
 
         // hoe vul ik deze id in?
-        db.update(TABLE, values, " id = ? ", new String[] {String.valueOf(TodoItem.id)});
-        db.close();
+//        db.update(TABLE, values, " id = ? ", new String[] {String.valueOf(TodoItem.id)});
+//        db.close();
     }
 
     /*
