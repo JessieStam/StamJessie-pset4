@@ -1,7 +1,6 @@
 package jstam.stamjessie_pset4;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -44,8 +44,15 @@ public class MainActivity extends AppCompatActivity {
                 //hier moet je nog een getChildAtPosition doen om te bepalen welke lijst je wilt -> uit SQLite halen
                 screen_list.getChildAt(position);
 
+                //String title = screen_list.getChildAt(position).toString();
+
+                String title = screen_list.getItemAtPosition(position).toString();
+
                 // ga naar een nieuwe activity
                 Intent listItems = new Intent(view.getContext(), SecondActivity.class);
+
+                listItems.putExtra("list_name", title);
+
                 startActivity(listItems);
 
                 // Jessie, kijk er nog even naar of je dit moet afsluiten of niet (volgens Hella waarschijnlijk niet)

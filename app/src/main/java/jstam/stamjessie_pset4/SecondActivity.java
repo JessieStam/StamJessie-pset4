@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,8 @@ public class SecondActivity extends MainActivity {
     String finished = "finished";
     String unfinished = "unfinished";
     EditText user_input_item;
+    String list_name;
+    TextView list_textbox;
 
     TodoManager todo_manager = TodoManager.getOurInstance();
 
@@ -32,6 +35,13 @@ public class SecondActivity extends MainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_item_screen);
+
+        Bundle extraTitle = getIntent().getExtras();
+        list_name = extraTitle.getString("list_name");
+
+        list_textbox = (TextView) findViewById(R.id.todoListTitle);
+
+        list_textbox.setText(list_name);
 
         screen_item_list = new ListView(this);
         screen_item_list = (ListView) findViewById(R.id.itemList);
