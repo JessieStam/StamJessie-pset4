@@ -5,33 +5,35 @@ package jstam.stamjessie_pset4;
  */
 public class TodoItem {
 
-    // vraag dit aan Gracia
-    private static int id;
+    // field for color
+    private String currentColor;
 
-    //field
+    // field for id
+    private int id;
+
+    //field for string
     private String todo_item;
 
-    private String currentColor;
-    private String finished = "finished";
-    private String unfinished = "unfinished";
+    // constructor for todo_item
+    public TodoItem(String new_string) {todo_item = new_string;}
 
-    //constructor
-    private TodoItem(String new_string) {todo_item = new_string;}
+    // constructor for id
+    public TodoItem(Integer new_id) {id = new_id;}
 
-    //methods
-    private String getTitle() {return todo_item;}
+    //methods for todo_item
+    public String getTitle() {return todo_item;}
 
     public void setTitle(String new_title) {todo_item = new_title;}
 
-    public void setColor(String currentColor) {
+    // methods for color
+    public void setColorUnfinished(String unfinished) {currentColor = "unfinished";}
 
-        if (currentColor.equals(unfinished)){
-            currentColor = finished;
-        }
-        else if (currentColor.equals(finished)) {
-            currentColor = unfinished;
-        }
-    }
+    public void setColorFinished(String finished) {currentColor = "finished";}
 
-    public String getColor(String currentColor) {return currentColor;}
+    public String getCurrentColor() {return currentColor;}
+
+    // methods for id
+    public Integer getId() {return id;}
+
+    public void setId(Integer new_id) {id = new_id;}
 }

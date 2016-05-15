@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -20,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     EditText user_input;
     String todo_title;
 
-    // TodoManager todo_manager = TodoManager.getOurInstance();
+    TodoManager todo_manager = TodoManager.getOurInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
 
                 //hier moet je nog een getChildAtPosition doen om te bepalen welke lijst je wilt -> uit SQLite halen
                 screen_list.getChildAt(position);
-
-                //String title = screen_list.getChildAt(position).toString();
 
                 String title = screen_list.getItemAtPosition(position).toString();
 
@@ -111,7 +108,11 @@ public class MainActivity extends AppCompatActivity {
     */
     public void addToList(View view) {
 
+        // get title for the list
         todo_title = user_input.getText().toString();
+
+        // create a new list item
+        //todo_manager.create_list(todo_title);
 
         // TodoList new_title = new TodoList(todo_title);
 

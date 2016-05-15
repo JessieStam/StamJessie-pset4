@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class TodoManager extends SQLiteOpenHelper {
     private TodoManager(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION); }
 
+    // define list for lists
     private ArrayList<TodoList> todo_list_list;
 
     // create first and only instance
@@ -49,33 +51,28 @@ public class TodoManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         // create the table, add id and to-do items
-        String query = "CREATE TABLE"+ TABLE+ " (_id"+" INTEGER PRIMARY KEY AUTOINCREMENT" + "todo_text TEXT)";
+        String query = "CREATE TABLE"+ TABLE+ " (_id"+" INTEGER PRIMARY KEY AUTOINCREMENT" + "todo_text TEXT, current_color TEXT)";
+
         db.execSQL(query);
 
+        // initialize todo_list_list
         todo_list_list = new ArrayList();
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade (SQLiteDatabase db, int oldVersion, int newVersion) {
 
         // drop table and create it again when application is updated
         db.execSQL("DROP TABLE IF EXISTS " + TABLE);
         onCreate(db);
+
+        // hier nog een upgrade voor de lijst
     }
 
     /*
-     * Add to-do items to the list
+     * Add to-do lists to the list
      */
-    public void create(String todo_list_name) {
-
-//        // initialize database for writing
-//        SQLiteDatabase db = getWritableDatabase();
-//        ContentValues values = new ContentValues();
-//
-//        // add to-do item to the list and insert into table
-//        values.put("todo_text", todo_list_name);
-//        db.insert(TABLE, null, values);
-//        db.close();
+    public void create_list (String todo_list_name) {
 
         // make new item list
         TodoList todo_list = new TodoList(todo_list_name);
@@ -85,15 +82,32 @@ public class TodoManager extends SQLiteOpenHelper {
     }
 
     /*
+     * Add to-do items to the list
+     */
+    public void create_item (TodoItem todo_item) {
+
+        // initialize database for writing
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        // add to-do item to the list and insert into table
+        values.put("todo_text", todo_item.getTitle());
+        values.put("current_color", todo_item.getCurrentColor());
+        db.insert(TABLE, null, values);
+        db.close();
+    }
+
+    /*
      * Read through the database
      */
-    public ArrayList<HashMap<String, String>> read() {
+    public ArrayList<HashMap<String, String>> read_item() {
 
         // initialize database for reading
         SQLiteDatabase db = getReadableDatabase();
 
         // select id and item from the table
-        String query = "SELECT _id "+"todo_text "+ " FROM"+ TABLE;
+        String query = "SELECT _id "+"todo_text "+ " current_color"+ " FROM"+ TABLE;
+
         ArrayList<HashMap<String, String>> todo = new ArrayList<>();
         Cursor cursor = db.rawQuery(query, null);
 
@@ -102,8 +116,10 @@ public class TodoManager extends SQLiteOpenHelper {
             do {
                 HashMap<String, String> todo_list = new HashMap<>();
                 todo_list.put("id", cursor.getString(cursor.getColumnIndex(" id")));
-                todo_list.put("todo_item", cursor.getString
-                        (cursor.getColumnIndex("todo")));
+                todo_list.put("todo_text", cursor.getString
+                        (cursor.getColumnIndex("todo_text")));
+                todo_list.put("current_color", cursor.getString
+                        (cursor.getColumnIndex("current_color")));
                 todo.add(todo_list);
             }
             while (cursor.moveToNext());
@@ -117,24 +133,33 @@ public class TodoManager extends SQLiteOpenHelper {
     /*
      * Update database
      */
-    public void update(TodoItem todo_title) {
+    public void update_item(TodoItem todo_item) {
 
         // initialize database for writing
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
 
         // add to-do item to list and add to the table
-        //values.put("todo", TodoItem.getTitle());
+        values.put("todo_text", todo_item.getTitle());
+        values.put("current_color", todo_item.getCurrentColor());
 
-        // hoe vul ik deze id in?
-//        db.update(TABLE, values, " id = ? ", new String[] {String.valueOf(TodoItem.id)});
-//        db.close();
+        // change data in the database for specific id --- MAKE A COUNTER FOR THE ID SOMEWHERE
+        db.update(TABLE, values, " id = ? ", new String[] {String.valueOf(todo_item.getId())});
+        db.close();
     }
+
+//    public void update_item_color(TodoItem todo_item_color) {
+//
+//        // get item's current color
+//        String current_color = todo_item_color.getCurrentColor();
+//
+//        // maybe just add this to SQLite
+//    }
 
     /*
      * Delete item from the table
      */
-    public void delete(int id) {
+    public void delete_item(int id) {
 
         // initialize database for writing
         SQLiteDatabase db = getWritableDatabase();
@@ -148,7 +173,7 @@ public class TodoManager extends SQLiteOpenHelper {
 
         String delete_list = String.valueOf(id);
 
-        // add item list to  item list list
-        todo_list_list.remove(delete_list);
+        // remove item from list list
+        todo_list_list.remove(id);
     }
 }

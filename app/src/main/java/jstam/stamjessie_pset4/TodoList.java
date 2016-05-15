@@ -6,7 +6,7 @@ package jstam.stamjessie_pset4;
 public class TodoList {
 
     // vraag dit aan Gracia
-    private static int id;
+    private int id;
 
     //field
     private String todo_title;
