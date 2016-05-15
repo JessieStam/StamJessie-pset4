@@ -25,6 +25,9 @@ public class TodoManager extends SQLiteOpenHelper {
     // define list for lists
     private ArrayList<TodoList> todo_list_list;
 
+    // define counter for list id
+    private Integer list_id = 0;
+
     // create first and only instance
     private static TodoManager ourInstance = null;
 
@@ -72,16 +75,28 @@ public class TodoManager extends SQLiteOpenHelper {
     /*
      * Add to-do lists to the list
      */
-    public void create_list (String todo_list_name) {
+    public ArrayList<TodoList> create_list (String todo_list_name) {
 
-        // make new item
+        // make new TodoList item
         TodoList todo_list = new TodoList(todo_list_name);
 
-        // set title for the new item
+        // create new array list for TodoList
+        ArrayList<TodoList> new_list = new ArrayList<>();
+
+        // new_list = todo_list.getList();
+
+        // set title for the new list
         todo_list.setTitle(todo_list_name);
 
+        // set id for the new list
+        todo_list.setId(list_id);
+
+        list_id += 1;
+
         // add item list to item list list
-        todo_list_list.add(todo_list);
+        // todo_list_list.add(new_list);
+
+        return new_list;
     }
 
     /*

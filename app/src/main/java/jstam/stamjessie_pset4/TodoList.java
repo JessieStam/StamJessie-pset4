@@ -21,6 +21,8 @@ public class TodoList {
 
     public TodoList(ArrayList<String> new_list) {todo_list = new_list;}
 
+    public TodoList(Integer new_id) {id = new_id;}
+
     //methods
     public String getTitle() {return todo_title;}
 
@@ -28,5 +30,9 @@ public class TodoList {
 
     public ArrayList<String> getList() {return todo_list;}
 
-    public void setList(ArrayList<String> new_list) {todo_list = new_list;}
+    public Integer getId() {return id;}
+
+    public void setId(Integer new_id) {id = new_id;}
+
+    // public void setList(ArrayList<String> new_list) {todo_list = new_list;}
 }

@@ -15,10 +15,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<String> todo_list_list;
+    //ArrayList<String> todo_list_counter;
     ListView screen_list;
     ArrayAdapter<String> todoAdapter;
     EditText user_input;
     String todo_title;
+    ArrayList<TodoList> new_todo_list;
+    //Integer list_counter;
 
     TodoManager todo_manager = TodoManager.getOurInstance();
 
@@ -31,8 +34,12 @@ public class MainActivity extends AppCompatActivity {
         screen_list = new ListView(this);
         screen_list = (ListView) findViewById(R.id.titleList);
         todo_list_list = new ArrayList<>();
+        //todo_list_counter = new ArrayList<>();
         todoAdapter = new ArrayAdapter<>
                 (this, android.R.layout.simple_list_item_1, todo_list_list);
+        //list_counter = 0;
+        new_todo_list = new ArrayList<>();
+
 
         /*
          * set onclick listener for ListView lists to open them
@@ -71,10 +78,10 @@ public class MainActivity extends AppCompatActivity {
                 todoAdapter.notifyDataSetChanged();
 
                 // define which list to remove for todo_list_list
-                String delete_list = screen_list.getItemAtPosition(position).toString();
+                //String delete_list = screen_list.getItemAtPosition(position).toString();
 
                 // remove the item from the todo_list_list
-                todo_manager.delete_list(delete_list);
+                //todo_manager.delete_list(delete_list);
 
                 return true;
             }
@@ -120,9 +127,10 @@ public class MainActivity extends AppCompatActivity {
         todo_title = user_input.getText().toString();
 
         // create a new list item
-        todo_manager.create_list(todo_title);
+        new_todo_list = todo_manager.create_list(todo_title);
 
         // add user input to ListView --- deze moet blijven staan, want todo_list_list is hier de listview, misschien nog anders
+        //todo_list_list.add(String.valueOf(new_todo_list));
         todo_list_list.add(todo_title);
 
         // refresh ListView
