@@ -15,13 +15,12 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<String> todo_list_list;
-    //ArrayList<String> todo_list_counter;
+    ArrayList<TodoList> todo_item_list;
     ListView screen_list;
     ArrayAdapter<String> todoAdapter;
     EditText user_input;
     String todo_title;
-    ArrayList<TodoList> new_todo_list;
-    //Integer list_counter;
+    TodoList new_todo_list;
 
     TodoManager todo_manager = TodoManager.getOurInstance();
 
@@ -34,11 +33,12 @@ public class MainActivity extends AppCompatActivity {
         screen_list = new ListView(this);
         screen_list = (ListView) findViewById(R.id.titleList);
         todo_list_list = new ArrayList<>();
-        //todo_list_counter = new ArrayList<>();
         todoAdapter = new ArrayAdapter<>
                 (this, android.R.layout.simple_list_item_1, todo_list_list);
-        //list_counter = 0;
-        new_todo_list = new ArrayList<>();
+        // new_todo_list = new TodoList();
+        todo_item_list = new ArrayList<>();
+
+        todo_manager = TodoManager.getOurInstance();
 
 
         /*
@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent listItems = new Intent(view.getContext(), SecondActivity.class);
 
                 listItems.putExtra("list_name", title);
+                listItems.putExtra("todo_list_list", todo_list_list);
 
                 startActivity(listItems);
 
@@ -128,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
 
         // create a new list item
         new_todo_list = todo_manager.create_list(todo_title);
+
+        todo_item_list.add(new_todo_list);
 
         // add user input to ListView --- deze moet blijven staan, want todo_list_list is hier de listview, misschien nog anders
         //todo_list_list.add(String.valueOf(new_todo_list));

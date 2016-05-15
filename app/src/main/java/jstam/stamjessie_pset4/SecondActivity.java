@@ -21,7 +21,7 @@ public class SecondActivity extends MainActivity {
     ArrayAdapter<String> todoItemAdapter;
 
     String todo_item;
-    String currentColor;
+    String currentStatus;
     String finished = "finished";
     String unfinished = "unfinished";
     EditText user_input_item;
@@ -29,14 +29,16 @@ public class SecondActivity extends MainActivity {
     TextView list_textbox;
 
     TodoManager todo_manager = TodoManager.getOurInstance();
+    DBHelper db_helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_item_screen);
 
-        Bundle extraTitle = getIntent().getExtras();
-        list_name = extraTitle.getString("list_name");
+        Bundle extraInfo = getIntent().getExtras();
+        list_name = extraInfo.getString("list_name");
+        todo_list_list = extraInfo.getStringArrayList("todo_list_list");
 
         list_textbox = (TextView) findViewById(R.id.todoListTitle);
 
@@ -47,24 +49,26 @@ public class SecondActivity extends MainActivity {
         todo_item_list = new ArrayList<>();
         todoItemAdapter = new ArrayAdapter<>
                 (this, android.R.layout.simple_list_item_1, todo_item_list);
-        currentColor = unfinished;
+        currentStatus = unfinished;
         user_input_item = (EditText) findViewById(R.id.user_input_item);
+
+        db_helper = new DBHelper(this);
 
         screen_item_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 // if item is selected, change color to gray
-                if (currentColor.equals(unfinished)) {
+                if (currentStatus.equals(unfinished)) {
                     screen_item_list.getChildAt(position).setBackgroundColor(Color.GRAY);
-                    currentColor = finished;
+                    currentStatus = finished;
 
                     // todo_manager.update(screen_list);
                 }
                 // if item is not selected, change color back to white
-                else if (currentColor.equals(finished)) {
+                else if (currentStatus.equals(finished)) {
                     screen_item_list.getChildAt(position).setBackgroundColor(Color.WHITE);
-                    currentColor = unfinished;
+                    currentStatus = unfinished;
                 }
             }
         });
@@ -76,21 +80,16 @@ public class SecondActivity extends MainActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View string, int position, long id) {
 
-
-                //deze werkt nog niet
-
                 // remove the item at the touched position and update data
                 todo_item_list.remove(position);
                 todoItemAdapter.notifyDataSetChanged();
 
                 //remove title from the SQLite
-                // TodoManager.delete(todo_item_list);
+                db_helper.delete((int) id);
 
                 return true;
             }
         });
-
-
     }
 
     /*
@@ -105,16 +104,13 @@ public class SecondActivity extends MainActivity {
         todo_item = user_input_item.getText().toString();
 
         // create new item
-        todo_manager.create_item(todo_item);
+        String new_item = todo_manager.create_item(todo_item);
 
         // add user input to ListView
-        todo_item_list.add(todo_item);
+        todo_item_list.add(new_item);
 
         // refresh ListView
         todoItemAdapter.notifyDataSetChanged();
-
-        // add title to SQLite
-        // todo_manager.create(todo_item);
 
         // clear the input line after text is added
         user_input_item.getText().clear();

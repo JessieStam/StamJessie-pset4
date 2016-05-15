@@ -34,5 +34,5 @@ public class TodoList {
 
     public void setId(Integer new_id) {id = new_id;}
 
-    // public void setList(ArrayList<String> new_list) {todo_list = new_list;}
+    public void setList(ArrayList<String> new_list) {todo_list = new_list;}
 }
