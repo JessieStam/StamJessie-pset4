@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,18 +35,19 @@ public class MainActivity extends AppCompatActivity {
                 (this, android.R.layout.simple_list_item_1, todo_list_list);
 
         /*
-         * set onclick listener for ListView items to check/uncheck them
+         * set onclick listener for ListView lists to open them
          */
         screen_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 //hier moet je nog een getChildAtPosition doen om te bepalen welke lijst je wilt -> uit SQLite halen
-                screen_list.getChildAt(position);
+                // screen_list.getChildAt(position);
 
+                // remember the name of the clicked list
                 String title = screen_list.getItemAtPosition(position).toString();
 
-                // ga naar een nieuwe activity
+                // move to SecondActivity
                 Intent listItems = new Intent(view.getContext(), SecondActivity.class);
 
                 listItems.putExtra("list_name", title);
@@ -68,8 +70,11 @@ public class MainActivity extends AppCompatActivity {
                 todo_list_list.remove(position);
                 todoAdapter.notifyDataSetChanged();
 
-                //remove title from the SQLite
-                // todo_manager.delete(TodoList.getTitle(todo_title));
+                // define which list to remove for todo_list_list
+                String delete_list = screen_list.getItemAtPosition(position).toString();
+
+                // remove the item from the todo_list_list
+                todo_manager.delete_list(delete_list);
 
                 return true;
             }
@@ -108,25 +113,20 @@ public class MainActivity extends AppCompatActivity {
     */
     public void addToList(View view) {
 
+        // use adapter to put todo_list information to screen_list
+        screen_list.setAdapter(todoAdapter);
+
         // get title for the list
         todo_title = user_input.getText().toString();
 
         // create a new list item
-        //todo_manager.create_list(todo_title);
+        todo_manager.create_list(todo_title);
 
-        // TodoList new_title = new TodoList(todo_title);
-
-        // add user input to ListView
+        // add user input to ListView --- deze moet blijven staan, want todo_list_list is hier de listview, misschien nog anders
         todo_list_list.add(todo_title);
-
-        // use adapter to put todo_list information to screen_list
-        screen_list.setAdapter(todoAdapter);
 
         // refresh ListView
         todoAdapter.notifyDataSetChanged();
-
-        // add title to SQLite
-        // todo_manager.create(todo_title);
 
         // clear the input line after text is added
         user_input.getText().clear();

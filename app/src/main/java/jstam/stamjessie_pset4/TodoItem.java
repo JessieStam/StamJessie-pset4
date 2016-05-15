@@ -11,7 +11,7 @@ public class TodoItem {
     // field for id
     private int id;
 
-    //field for string
+    //field for item
     private String todo_item;
 
     // constructor for todo_item

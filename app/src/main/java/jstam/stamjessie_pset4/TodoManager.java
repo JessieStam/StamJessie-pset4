@@ -74,17 +74,26 @@ public class TodoManager extends SQLiteOpenHelper {
      */
     public void create_list (String todo_list_name) {
 
-        // make new item list
+        // make new item
         TodoList todo_list = new TodoList(todo_list_name);
 
-        // add item list to  item list list
+        // set title for the new item
+        todo_list.setTitle(todo_list_name);
+
+        // add item list to item list list
         todo_list_list.add(todo_list);
     }
 
     /*
      * Add to-do items to the list
      */
-    public void create_item (TodoItem todo_item) {
+    public void create_item (String todo_item_name) {
+
+        // make new item
+        TodoItem todo_item = new TodoItem(todo_item_name);
+
+        // set title for the new item
+        todo_item.setTitle(todo_item_name);
 
         // initialize database for writing
         SQLiteDatabase db = getWritableDatabase();
@@ -95,6 +104,12 @@ public class TodoManager extends SQLiteOpenHelper {
         values.put("current_color", todo_item.getCurrentColor());
         db.insert(TABLE, null, values);
         db.close();
+
+        // add list to put items in?
+//        ArrayList<String> new_list = new ArrayList<>();
+//
+//        todo_list.setList(new_list);
+
     }
 
     /*
@@ -169,11 +184,16 @@ public class TodoManager extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void delete_list(int id) {
+    public void delete_list(String delete_list) {
 
-        String delete_list = String.valueOf(id);
+        for (int i = 0; i < todo_list_list.size(); i++) {
 
-        // remove item from list list
-        todo_list_list.remove(id);
+            if (todo_list_list.get(i).toString().equals(delete_list)) {
+
+                // remove item from list list
+                todo_list_list.remove(todo_list_list.get(i));
+
+            }
+        }
     }
 }

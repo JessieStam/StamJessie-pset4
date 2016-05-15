@@ -19,7 +19,6 @@ public class SecondActivity extends MainActivity {
     ArrayList<String> todo_item_list;
     ListView screen_item_list;
     ArrayAdapter<String> todoItemAdapter;
-    EditText user_input;
 
     String todo_item;
     String currentColor;
@@ -102,9 +101,11 @@ public class SecondActivity extends MainActivity {
         // use adapter to put todo_list information to screen_list
         screen_item_list.setAdapter(todoItemAdapter);
 
+        // get item for the list
         todo_item = user_input_item.getText().toString();
 
-        //TodoItem new_item = new TodoItem(todo_item);
+        // create new item
+        todo_manager.create_item(todo_item);
 
         // add user input to ListView
         todo_item_list.add(todo_item);
