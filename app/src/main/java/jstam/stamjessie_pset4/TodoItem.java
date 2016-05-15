@@ -1,12 +1,13 @@
 package jstam.stamjessie_pset4;
 
 /**
- * Created by Jessie on 11/05/2016.
+ * TotoItem.java
+ *
+ * Jessie Stam
+ *
+ * This class initializes todoitem objects.
  */
 public class TodoItem {
-
-    // field for color
-    private String currentColor;
 
     // field for id
     private int id;
@@ -24,13 +25,6 @@ public class TodoItem {
     public String getTitle() {return todo_item;}
 
     public void setTitle(String new_title) {todo_item = new_title;}
-
-    // methods for color
-    public void setColorUnfinished(String unfinished) {currentColor = "unfinished";}
-
-    public void setColorFinished(String finished) {currentColor = "finished";}
-
-    public String getCurrentColor() {return currentColor;}
 
     // methods for id
     public Integer getId() {return id;}

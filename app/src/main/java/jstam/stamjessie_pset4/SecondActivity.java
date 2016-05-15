@@ -12,11 +12,16 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by Jessie on 12/05/2016.
+ * SecondActivity.java
+ *
+ * Jessie Stam
+ *
+ * This activity lets users create todoitems to put in the lists.
  */
 public class SecondActivity extends MainActivity {
 
     ArrayList<String> todo_item_list;
+    ArrayList<TodoItem> todo_item_item;
     ListView screen_item_list;
     ArrayAdapter<String> todoItemAdapter;
 
@@ -51,9 +56,13 @@ public class SecondActivity extends MainActivity {
                 (this, android.R.layout.simple_list_item_1, todo_item_list);
         currentStatus = unfinished;
         user_input_item = (EditText) findViewById(R.id.user_input_item);
+        todo_item_item = new ArrayList<>();
 
         db_helper = new DBHelper(this);
 
+        /*
+         * Check status of todo_item, change background color accordingly
+         */
         screen_item_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -62,8 +71,6 @@ public class SecondActivity extends MainActivity {
                 if (currentStatus.equals(unfinished)) {
                     screen_item_list.getChildAt(position).setBackgroundColor(Color.GRAY);
                     currentStatus = finished;
-
-                    // todo_manager.update(screen_list);
                 }
                 // if item is not selected, change color back to white
                 else if (currentStatus.equals(finished)) {
@@ -104,16 +111,22 @@ public class SecondActivity extends MainActivity {
         todo_item = user_input_item.getText().toString();
 
         // create new item
-        String new_item = todo_manager.create_item(todo_item);
+        TodoItem new_item = todo_manager.create_item(todo_item);
 
         // add user input to ListView
-        todo_item_list.add(new_item);
+        todo_item_list.add(todo_item);
+
+        // add todo_item to list
+        todo_item_item.add(new_item);
 
         // refresh ListView
         todoItemAdapter.notifyDataSetChanged();
 
         // clear the input line after text is added
         user_input_item.getText().clear();
+
+        // add item to the SQLite
+        // db_helper.create(new_item);
     }
 
 }

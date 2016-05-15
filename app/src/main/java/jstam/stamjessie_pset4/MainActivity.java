@@ -10,11 +10,23 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
+
+/*
+ * TodoList application
+ *
+ * Jessie Stam
+ *
+ * This application lets the user make multiple todolists, each of which can hold multiple
+ * todoitems. This activity lets users create and delete the todolists.
+ *
+ * I wasn't able to completely finish this application, however it still functions.
+ * Unfortunately the data isn't saved.
+ */
 
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<String> todo_list_list;
+    ArrayList<String> todo_restore_list;
     ArrayList<TodoList> todo_item_list;
     ListView screen_list;
     ArrayAdapter<String> todoAdapter;
@@ -23,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     TodoList new_todo_list;
 
     TodoManager todo_manager = TodoManager.getOurInstance();
+    DBHelper db_helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +48,11 @@ public class MainActivity extends AppCompatActivity {
         todo_list_list = new ArrayList<>();
         todoAdapter = new ArrayAdapter<>
                 (this, android.R.layout.simple_list_item_1, todo_list_list);
-        // new_todo_list = new TodoList();
         todo_item_list = new ArrayList<>();
+        todo_restore_list = new ArrayList<>();
+        db_helper = new DBHelper(this);
 
         todo_manager = TodoManager.getOurInstance();
-
 
         /*
          * set onclick listener for ListView lists to open them
@@ -47,9 +60,6 @@ public class MainActivity extends AppCompatActivity {
         screen_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                //hier moet je nog een getChildAtPosition doen om te bepalen welke lijst je wilt -> uit SQLite halen
-                // screen_list.getChildAt(position);
 
                 // remember the name of the clicked list
                 String title = screen_list.getItemAtPosition(position).toString();
@@ -61,9 +71,6 @@ public class MainActivity extends AppCompatActivity {
                 listItems.putExtra("todo_list_list", todo_list_list);
 
                 startActivity(listItems);
-
-                // Jessie, kijk er nog even naar of je dit moet afsluiten of niet (volgens Hella waarschijnlijk niet)
-                // finish();
             }
         });
 
@@ -79,10 +86,10 @@ public class MainActivity extends AppCompatActivity {
                 todoAdapter.notifyDataSetChanged();
 
                 // define which list to remove for todo_list_list
-                //String delete_list = screen_list.getItemAtPosition(position).toString();
+                String delete_list = screen_list.getItemAtPosition(position).toString();
 
                 // remove the item from the todo_list_list
-                //todo_manager.delete_list(delete_list);
+                todo_manager.delete_list(delete_list);
 
                 return true;
             }
@@ -96,11 +103,9 @@ public class MainActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        // save to-do items
-        todo_title = user_input.getText().toString();
-
-        outState.putString("todo_title", todo_title);
-        //outState.putStringArrayList("todo_list", todo_list_save);
+        // save todo_lists
+        todo_restore_list = todo_list_list;
+        outState.putStringArrayList("todo_list", todo_restore_list);
     }
 
     /*
@@ -110,9 +115,8 @@ public class MainActivity extends AppCompatActivity {
     public void onRestoreInstanceState(Bundle saveInstanceState) {
         super.onRestoreInstanceState(saveInstanceState);
 
-        // restore to-do items
-        user_input.setText(saveInstanceState.getString("todo_title"));
-        //todo_list = saveInstanceState.getStringArrayList("todo_list");
+        // restore to_do lists
+        todo_restore_list = saveInstanceState.getStringArrayList("todo_list");
     }
 
 
@@ -130,10 +134,10 @@ public class MainActivity extends AppCompatActivity {
         // create a new list item
         new_todo_list = todo_manager.create_list(todo_title);
 
+        // ad todo_list to list
         todo_item_list.add(new_todo_list);
 
-        // add user input to ListView --- deze moet blijven staan, want todo_list_list is hier de listview, misschien nog anders
-        //todo_list_list.add(String.valueOf(new_todo_list));
+        // add todo_list to ListView
         todo_list_list.add(todo_title);
 
         // refresh ListView

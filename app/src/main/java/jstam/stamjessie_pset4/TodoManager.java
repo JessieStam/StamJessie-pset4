@@ -1,18 +1,14 @@
 package jstam.stamjessie_pset4;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Color;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 /**
- * Created by Jessie on 11/05/2016.
+ * TodoManager.java
+ *
+ * Jessie Stam
+ *
+ * This singleton class contains functions that help to create todolists and todoitems.
  */
 public class TodoManager {
 
@@ -21,6 +17,9 @@ public class TodoManager {
 
     // define counter for list id
     private Integer list_id = 0;
+
+    // define counter for item id
+    private Integer item_id = 0;
 
     private static TodoManager ourInstance = null;
 
@@ -33,9 +32,8 @@ public class TodoManager {
         return ourInstance;
     }
 
-
     /*
-     * Add to-do lists to the list
+     * Adds to-do lists to the list
      */
     public TodoList create_list (String todo_list_name) {
 
@@ -57,9 +55,6 @@ public class TodoManager {
         // set list for the new list
         todo_list.setList(new_list);
 
-//        new_list = todo_list.getList();
-//        Integer new_id = todo_list.getId();
-
         // add item list to item list list
         todo_list_list.add(todo_list);
 
@@ -67,9 +62,9 @@ public class TodoManager {
     }
 
     /*
-     * Add to-do items to the list
+     * Adds to-do items to the list
      */
-    public String create_item (String todo_item_name) {
+    public TodoItem create_item (String todo_item_name) {
 
         // make new item
         TodoItem todo_item = new TodoItem(todo_item_name);
@@ -77,25 +72,18 @@ public class TodoManager {
         // set title for the new item
         todo_item.setTitle(todo_item_name);
 
+        // set id for the new item
+        todo_item.setId(item_id);
 
+        // update id for next item
+        item_id += 1;
 
-        // add list to put items in?
-//        ArrayList<String> new_list = new ArrayList<>();
-//
-//        todo_list.setList(new_list);
-
-        return todo_item_name;
+        return todo_item;
     }
 
-//    public void update_item_color(TodoItem todo_item_color) {
-//
-//        // get item's current color
-//        String current_color = todo_item_color.getCurrentColor();
-//
-//        // maybe just add this to SQLite
-//    }
-
-
+    /*
+     * Iterates over todo_list_list and checks if it's the list to be deleted
+     */
     public void delete_list(String delete_list) {
 
         for (int i = 0; i < todo_list_list.size(); i++) {

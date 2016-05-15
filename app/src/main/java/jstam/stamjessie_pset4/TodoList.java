@@ -3,7 +3,11 @@ package jstam.stamjessie_pset4;
 import java.util.ArrayList;
 
 /**
- * Created by Jessie on 13/05/2016.
+ * TodoList.java
+ *
+ * Jessie Stam
+ *
+ * This class initializes todolist objects.
  */
 public class TodoList {
 

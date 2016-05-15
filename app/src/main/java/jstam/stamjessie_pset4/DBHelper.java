@@ -10,7 +10,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by Jessie on 15/05/2016.
+ * DBHelper.java
+ *
+ * Jessie Stam
+ *
+ * This class creates a SQLite database in which todoitems are stored.
  */
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -20,11 +24,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION); }
 
+    // currentStatus starts as unfinished
+    String currentStatus = "unfinished";
+
     @Override
     public void onCreate(SQLiteDatabase db) {
 
         // create the table, add id and to-do items
-        String query = "CREATE TABLE"+ TABLE+ " (_id"+" INTEGER PRIMARY KEY AUTOINCREMENT" + "todo_text TEXT, current_color TEXT)";
+        String query = "CREATE TABLE"+ TABLE+ " (_id"+" INTEGER PRIMARY KEY AUTOINCREMENT" + "todo_text TEXT, current_status TEXT)";
 
         db.execSQL(query);
     }
@@ -35,8 +42,6 @@ public class DBHelper extends SQLiteOpenHelper {
         // drop table and create it again when application is updated
         db.execSQL("DROP TABLE IF EXISTS " + TABLE);
         onCreate(db);
-
-        // hier nog een upgrade voor de lijst
     }
 
     public void create(TodoItem todo_item) {
@@ -47,7 +52,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         // add to-do item to the list and insert into table
         values.put("todo_text", todo_item.getTitle());
-        values.put("current_color", todo_item.getCurrentColor());
+        values.put("current_status", currentStatus);
         db.insert(TABLE, null, values);
         db.close();
     }
@@ -61,7 +66,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
 
         // select id and item from the table
-        String query = "SELECT _id "+"todo_text "+ " current_color"+ " FROM"+ TABLE;
+        String query = "SELECT _id "+"todo_text "+ " current_status"+ " FROM"+ TABLE;
 
         ArrayList<HashMap<String, String>> todo = new ArrayList<>();
         Cursor cursor = db.rawQuery(query, null);
@@ -73,8 +78,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 todo_list.put("id", cursor.getString(cursor.getColumnIndex(" id")));
                 todo_list.put("todo_text", cursor.getString
                         (cursor.getColumnIndex("todo_text")));
-                todo_list.put("current_color", cursor.getString
-                        (cursor.getColumnIndex("current_color")));
+                todo_list.put("current_status", cursor.getString
+                        (cursor.getColumnIndex("current_status")));
                 todo.add(todo_list);
             }
             while (cursor.moveToNext());
@@ -90,13 +95,21 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public void update(TodoItem todo_item) {
 
+        // change currentStatus
+        if (currentStatus.equals("unfinished")) {
+            currentStatus = "finished";
+        }
+        else if (currentStatus.equals("finished")) {
+            currentStatus = "unfinished";
+        }
+
         // initialize database for writing
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
 
         // add to-do item to list and add to the table
         values.put("todo_text", todo_item.getTitle());
-        values.put("current_color", todo_item.getCurrentColor());
+        values.put("current_status", currentStatus);
 
         // change data in the database for specific id --- MAKE A COUNTER FOR THE ID SOMEWHERE
         db.update(TABLE, values, " id = ? ", new String[] {String.valueOf(todo_item.getId())});
